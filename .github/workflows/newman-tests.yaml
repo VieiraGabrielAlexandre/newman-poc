@@ -17,7 +17,11 @@ jobs:
       - name: Check out the repository
         uses: actions/checkout@v3
 
-      # Passo 2: Instalar o Node.js e Newman
+      # Passo 2: Listar arquivos no repositório (para verificar se a coleção existe)
+      - name: List repository files
+        run: ls -alh
+
+      # Passo 3: Instalar o Node.js e Newman
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -26,15 +30,15 @@ jobs:
       - name: Install Newman
         run: npm install -g newman
 
-      # Instalar o reporter HTML para Newman
-      - name: Install HTML Reporter for Newman
-        run: npm install -g newman-reporter-html
+      # Instalar o reporter HTMLEXTRA para Newman
+      - name: Install HTMLEXTRA Reporter for Newman
+        run: npm install -g newman-reporter-htmlextra
 
-      # Passo 3: Executar os testes com Newman
+      # Passo 4: Executar os testes com Newman e gerar o relatório HTMLEXTRA
       - name: Run Newman tests
-        run: newman run collection-postman.json --reporters html --reporter-html-export newman-report.html
+        run: newman run collection-postman.json --reporters htmlextra --reporter-htmlextra-export newman-report.html
 
-      # Passo 4: Publicar o relatório HTML gerado
+      # Passo 5: Publicar o relatório HTML gerado
       - name: Upload Newman report
         uses: actions/upload-artifact@v3
         with:
