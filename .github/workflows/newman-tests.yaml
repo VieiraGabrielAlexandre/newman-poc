@@ -26,6 +26,10 @@ jobs:
       - name: Install Newman
         run: npm install -g newman
 
+      # Instalar o reporter HTML para Newman
+      - name: Install HTML Reporter for Newman
+        run: npm install -g newman-reporter-html
+
       # Passo 3: Executar os testes com Newman
       - name: Run Newman tests
         run: newman run collection-postman.json --reporters html --reporter-html-export newman-report.html
