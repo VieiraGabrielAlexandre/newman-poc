@@ -28,5 +28,11 @@ jobs:
 
       # Passo 3: Executar os testes com Newman
       - name: Run Newman tests
-        run: newman run collection-postman.json
+        run: newman run collection-postman.json --reporters html --reporter-html-export newman-report.html
 
+      # Passo 4: Publicar o relatório HTML gerado
+      - name: Upload Newman report
+        uses: actions/upload-artifact@v3
+        with:
+          name: newman-report
+          path: newman-report.html
