@@ -30,21 +30,7 @@ jobs:
       - name: Install Newman
         run: npm install -g newman
 
-      # Instalar o reporter HTMLEXTRA para Newman
-      - name: Install HTMLEXTRA Reporter for Newman
-        run: npm install -g newman-reporter-htmlextra
-
       # Passo 4: Executar os testes com Newman e gerar o relatório HTMLEXTRA
       - name: Run Newman tests
         run: |
-          newman run collection-postman.json --reporters htmlextra --reporter-htmlextra-export newman-report.html --verbose || {
-            echo "Newman test run failed.";
-            exit 1;
-          }
-
-      # Passo 5: Publicar o relatório HTML gerado
-      - name: Upload Newman report
-        uses: actions/upload-artifact@v3
-        with:
-          name: newman-report
-          path: newman-report.html
+          newman run collection-postman.json --verbose
