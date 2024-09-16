@@ -36,7 +36,11 @@ jobs:
 
       # Passo 4: Executar os testes com Newman e gerar o relatório HTMLEXTRA
       - name: Run Newman tests
-        run: newman run collection-postman.json --reporters htmlextra --reporter-htmlextra-export newman-report.html
+        run: |
+          newman run collection-postman.json --reporters htmlextra --reporter-htmlextra-export newman-report.html || {
+            echo "Newman test run failed.";
+            exit 1;
+          }
 
       # Passo 5: Publicar o relatório HTML gerado
       - name: Upload Newman report
