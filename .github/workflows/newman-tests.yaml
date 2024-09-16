@@ -1,0 +1,32 @@
+name: Run Newman Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  newman-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Passo 1: Checar o repositório
+      - name: Check out the repository
+        uses: actions/checkout@v3
+
+      # Passo 2: Instalar o Node.js e Newman
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+
+      - name: Install Newman
+        run: npm install -g newman
+
+      # Passo 3: Executar os testes com Newman
+      - name: Run Newman tests
+        run: newman run collection-postman.json --environment <environment-file>.json
+
