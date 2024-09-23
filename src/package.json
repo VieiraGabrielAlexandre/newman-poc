@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/VieiraGabrielAlexandre/newman-poc#readme",
   "dependencies": {
+    "axios": "^1.7.7",
     "newman": "^6.0.0",
     "newman-reporter-htmlextra": "^1.23.1"
   }
