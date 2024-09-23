@@ -16,6 +16,20 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"pm.test(\"Response is JSON\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Response has logradouro\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.have.property('logradouro');",
+							"});",
+							"",
 							"pm.test(\"Your test name\", function () {",
 							"    var jsonData = pm.response.json();",
 							"    pm.expect(jsonData.logradouro).to.eql(\"Avenida Miguel Yunes\");",
@@ -48,7 +62,7 @@
 			"response": []
 		},
 		{
-			"name": "Generate HASH",
+			"name": "Generate HASH - 10",
 			"event": [
 				{
 					"listen": "test",
@@ -57,7 +71,23 @@
 							"pm.test(\"Status code is 200\", function () {",
 							"    pm.response.to.have.status(200);",
 							"});",
-							""
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"pm.test(\"Response is JSON\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Response has UUIDs\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.be.an('array');",
+							"    pm.expect(jsonData).to.have.lengthOf(10);",
+							"    jsonData.forEach(function(uuid) {",
+							"        pm.expect(uuid).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);",
+							"    });",
+							"});"
 						],
 						"type": "text/javascript",
 						"packages": {}
@@ -81,6 +111,61 @@
 						"v1",
 						"count",
 						"10"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Generate HASH - 30",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500s\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							"pm.test(\"Response is JSON\", function () {",
+							"    pm.response.to.be.json;",
+							"});",
+							"",
+							"pm.test(\"Response has UUIDs\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.be.an('array');",
+							"    pm.expect(jsonData).to.have.lengthOf(30);",
+							"    jsonData.forEach(function(uuid) {",
+							"        pm.expect(uuid).to.match(/^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);",
+							"    });",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://www.uuidtools.com/api/generate/v1/count/30",
+					"protocol": "https",
+					"host": [
+						"www",
+						"uuidtools",
+						"com"
+					],
+					"path": [
+						"api",
+						"generate",
+						"v1",
+						"count",
+						"30"
 					]
 				}
 			},
