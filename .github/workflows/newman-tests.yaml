@@ -21,7 +21,17 @@ jobs:
       - name: List repository files
         run: ls -alh
 
-      # Passo 3: Instalar o Node.js e Newman
+      # Passo 3: Verificar se o arquivo collection-postman.json existe
+      - name: Check if collection-postman.json exists
+        run: |
+          if [ ! -f "collection-postman.json" ]; then
+            echo "collection-postman.json not found!";
+            exit 1;
+          else
+            echo "collection-postman.json found.";
+          fi
+
+      # Passo 4: Instalar o Node.js e Newman
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
@@ -34,7 +44,7 @@ jobs:
       - name: Install HTMLEXTRA Reporter for Newman
         run: npm install -g newman-reporter-htmlextra
 
-      # Passo 4: Executar os testes com Newman e gerar o relatório HTMLEXTRA
+      # Passo 5: Executar os testes com Newman e gerar o relatório HTMLEXTRA
       - name: Run Newman tests
         run: |
           newman run collection-postman.json --reporters htmlextra --reporter-htmlextra-export newman-report.html --verbose || {
@@ -42,7 +52,7 @@ jobs:
             exit 1;
           }
 
-      # Passo 5: Publicar o relatório HTML gerado
+      # Passo 6: Publicar o relatório HTML gerado
       - name: Upload Newman report
         uses: actions/upload-artifact@v3
         with:
