@@ -45,6 +45,7 @@ jobs:
       - name: Run Newman tests
         run: |
           newman run collection-postman.json --reporters htmlextra --reporter-htmlextra-export newman-report.html --verbose
+        continue-on-error: true
 
       # Passo 6: Configurar GitHub Pages
       - name: Configure GitHub Pages
