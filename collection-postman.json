@@ -170,6 +170,144 @@
 				}
 			},
 			"response": []
+		},
+		{
+			"name": "V2 - Vistorias - Process PDF - Health",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status http in body is 200\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status_http).to.eql(\"ok\");",
+							"});",
+							"",
+							"pm.test(\"Status http in body is ok\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status_http).to.eql(\"ok\");",
+							"});",
+							"",
+							"pm.test(\"Status sqs_status in body is ok\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.sqs_status).to.eql(\"imobiliaria_vistorias_geracao_imagens_para_pdf : OK\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://imob-app-processpdf.hml.superlogica.tech/health",
+					"protocol": "https",
+					"host": [
+						"imob-app-processpdf",
+						"hml",
+						"superlogica",
+						"tech"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "V2 - Vistorias - Process PDF - List Messages",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 500ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(500);",
+							"});",
+							"",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://imob-app-processpdf.hml.superlogica.tech/list_messages",
+					"protocol": "https",
+					"host": [
+						"imob-app-processpdf",
+						"hml",
+						"superlogica",
+						"tech"
+					],
+					"path": [
+						"list_messages"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "V2 - Vistorias - Processing Service - Health",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Status http in body is 200\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status_http).to.eql(\"ok\");",
+							"});",
+							"",
+							"pm.test(\"Status http in body is ok\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.status_http).to.eql(\"ok\");",
+							"});",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://imob-app-sqsprocessingservice-vistorias.hml.superlogica.tech/health",
+					"protocol": "https",
+					"host": [
+						"imob-app-sqsprocessingservice-vistorias",
+						"hml",
+						"superlogica",
+						"tech"
+					],
+					"path": [
+						"health"
+					]
+				}
+			},
+			"response": []
 		}
 	]
 }
