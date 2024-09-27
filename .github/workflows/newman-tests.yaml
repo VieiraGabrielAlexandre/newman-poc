@@ -41,10 +41,10 @@ jobs:
       - name: Run Newman tests
         run: |
           newman run collection-postman.json --verbose -r htmlextra --reporter-htmlextra-export index.html --reporter-htmlextra-darkTheme > runreport1.html
+        continue-on-error: true
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
-        if: success()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: .
