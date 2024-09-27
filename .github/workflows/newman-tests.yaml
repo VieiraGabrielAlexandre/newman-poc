@@ -37,10 +37,24 @@ jobs:
         with:
           node-version: '16'
 
-      - name: Install Newman
-        run: npm install -g newman
+      - name: Install Newman and HTMLEXTRA Reporter
+        run: |
+          npm install -g newman newman-reporter-htmlextra
 
-      # Passo 5: Executar os testes com Newman
+      # Passo 5: Executar os testes com Newman e gerar o relatório HTMLEXTRA
       - name: Run Newman tests
         run: |
-          newman run collection-postman.json --verbose
+          newman run collection-postman.json --reporters htmlextra --reporter-htmlextra-export newman-report.html --verbose
+
+      # Passo 6: Configurar GitHub Pages
+      - name: Configure GitHub Pages
+        run: |
+          mkdir -p ./public
+          mv newman-report.html ./public/index.html
+
+      # Passo 7: Publicar no GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
