@@ -1,5 +1,4 @@
-name: Run Newman Tests
-
+name: Run Newman Tests and Publish Results
 on:
   push:
     branches:
@@ -11,17 +10,15 @@ on:
 jobs:
   newman-test:
     runs-on: ubuntu-latest
-
+    permissions:
+      contents: write
     steps:
-      # Passo 1: Checar o repositório
       - name: Check out the repository
         uses: actions/checkout@v3
 
-      # Passo 2: Listar arquivos no repositório (para verificar se a coleção existe)
       - name: List repository files
         run: ls -alh
 
-      # Passo 3: Verificar se o arquivo collection-postman.json existe
       - name: Check if collection-postman.json exists
         run: |
           if [ ! -f "collection-postman.json" ]; then
@@ -31,31 +28,25 @@ jobs:
             echo "collection-postman.json found.";
           fi
 
-      # Passo 4: Instalar o Node.js e Newman
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '16'
+          node-version: '18'
 
-      - name: Install Newman and HTMLEXTRA Reporter
+      - name: Install Newman and reporter
         run: |
-          npm install -g newman newman-reporter-htmlextra
+          npm install -g newman
+          npm install -g newman-reporter-htmlextra
 
-      # Passo 5: Executar os testes com Newman e gerar o relatório HTMLEXTRA
       - name: Run Newman tests
         run: |
-          newman run collection-postman.json --reporters htmlextra --reporter-htmlextra-export newman-report.html --verbose
-        continue-on-error: true
+          newman run collection-postman.json --verbose -r htmlextra --reporter-htmlextra-export index.html --reporter-htmlextra-darkTheme > runreport1.html
 
-      # Passo 6: Configurar GitHub Pages
-      - name: Configure GitHub Pages
-        run: |
-          mkdir -p ./public
-          mv newman-report.html ./public/index.html
-
-      # Passo 7: Publicar no GitHub Pages
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
+        if: success()
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          publish_dir: .
+          publish_branch: gh-pages
+          keep_files: true
